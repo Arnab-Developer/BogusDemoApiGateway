@@ -30,29 +30,29 @@ internal class BogusDemoClient
 
     public async Task CreateDepartmentAsync(CreateDepartmentRequest request, CancellationToken ct)
     {
-        var url = $"{_endpointOption.CreateDepartmentEndpoint}?name={request.Name}";
-        using var response = await _httpClient.PutAsync(url, default, ct);
+        var content = JsonContent.Create(request);
+        using var response = await _httpClient.PutAsync(_endpointOption.CreateDepartmentEndpoint, content, ct);
         response.EnsureSuccessStatusCode();
     }
 
     public async Task ChangeDepartmentNameAsync(ChangeDepartmentNameRequest request, CancellationToken ct)
     {
-        var url = $"{_endpointOption.ChangeDepartmentNameEndpoint}?id={request.Id}&name={request.Name}";
-        using var response = await _httpClient.PostAsync(url, default, ct);
+        var content = JsonContent.Create(request);
+        using var response = await _httpClient.PostAsync(_endpointOption.ChangeDepartmentNameEndpoint, content, ct);
         response.EnsureSuccessStatusCode();
     }
 
     public async Task CreateRoomAsync(CreateRoomRequest request, CancellationToken ct)
     {
-        var url = $"{_endpointOption.CreateRoomEndpoint}?id={request.Id}&roomNumber= {request.RoomNumber}";
-        using var response = await _httpClient.PutAsync(url, default, ct);
+        var content = JsonContent.Create(request);
+        using var response = await _httpClient.PutAsync(_endpointOption.CreateRoomEndpoint, content, ct);
         response.EnsureSuccessStatusCode();
     }
 
     public async Task ChangeRoomAsync(ChangeRoomRequest request, CancellationToken ct)
     {
-        var url = $"{_endpointOption.ChangeRoomEndpoint}?departmentId={request.DepartmentId}&roomId={request.RoomId}&roomNumber={request.RoomNumber}";
-        using var response = await _httpClient.PostAsync(url, default, ct);
+        var content = JsonContent.Create(request);
+        using var response = await _httpClient.PostAsync(_endpointOption.ChangeRoomEndpoint, content, ct);
         response.EnsureSuccessStatusCode();
     }
 
