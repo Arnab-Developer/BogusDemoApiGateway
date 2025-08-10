@@ -37,30 +37,31 @@ group.MapGet("get-departments", async (BogusDemoClient client, CancellationToken
     return TypedResults.Ok(content);
 });
 
-group.MapPut("create-department", async (string name, BogusDemoClient client, CancellationToken ct) =>
+group.MapPut("create-department", async (CreateDepartmentRequest request, BogusDemoClient client,
+    CancellationToken ct) =>
 {
-    await client.CreateDepartmentAsync(name, ct);
+    await client.CreateDepartmentAsync(request, ct);
     return TypedResults.Ok();
 });
 
-group.MapPost("change-department-name", async (int id, string name, BogusDemoClient client,
-    CancellationToken ct) =>
+group.MapPost("change-department-name", async (ChangeDepartmentNameRequest request,
+    BogusDemoClient client, CancellationToken ct) =>
 {
-    await client.ChangeDepartmentNameAsync(id, name, ct);
+    await client.ChangeDepartmentNameAsync(request, ct);
     return TypedResults.Ok();
 });
 
-group.MapPut("create-room", async (int id, string roomNumber, BogusDemoClient client,
+group.MapPut("create-room", async (CreateRoomRequest request, BogusDemoClient client,
     CancellationToken ct) =>
 {
-    await client.CreateRoomAsync(id, roomNumber, ct);
+    await client.CreateRoomAsync(request, ct);
     return TypedResults.Ok();
 });
 
-group.MapPost("change-room", async (int departmentId, int roomId, string roomNumber, BogusDemoClient client,
+group.MapPost("change-room", async (ChangeRoomRequest request, BogusDemoClient client,
     CancellationToken ct) =>
 {
-    await client.ChangeRoomAsync(departmentId, roomId, roomNumber, ct);
+    await client.ChangeRoomAsync(request, ct);
     return TypedResults.Ok();
 });
 

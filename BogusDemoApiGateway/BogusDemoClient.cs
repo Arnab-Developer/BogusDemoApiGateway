@@ -2,7 +2,7 @@
 
 namespace BogusDemoApiGateway;
 
-public class BogusDemoClient
+internal class BogusDemoClient
 {
     private readonly HttpClient _httpClient;
     private readonly EndpointOption _endpointOption;
@@ -28,32 +28,31 @@ public class BogusDemoClient
         return content;
     }
 
-    public async Task CreateDepartmentAsync(string name, CancellationToken ct)
+    public async Task CreateDepartmentAsync(CreateDepartmentRequest request, CancellationToken ct)
     {
-        var url = $"{_endpointOption.CreateDepartmentEndpoint}?name={name}";
-        using var response = await _httpClient.PutAsync(url, default, ct);
+        var content = JsonContent.Create(request);
+        using var response = await _httpClient.PutAsync(_endpointOption.CreateDepartmentEndpoint, content, ct);
         response.EnsureSuccessStatusCode();
     }
 
-    public async Task ChangeDepartmentNameAsync(int id, string name, CancellationToken ct)
+    public async Task ChangeDepartmentNameAsync(ChangeDepartmentNameRequest request, CancellationToken ct)
     {
-        var url = $"{_endpointOption.ChangeDepartmentNameEndpoint}?id={id}&name={name}";
-        using var response = await _httpClient.PostAsync(url, default, ct);
+        var content = JsonContent.Create(request);
+        using var response = await _httpClient.PostAsync(_endpointOption.ChangeDepartmentNameEndpoint, content, ct);
         response.EnsureSuccessStatusCode();
     }
 
-    public async Task CreateRoomAsync(int id, string roomNumber, CancellationToken ct)
+    public async Task CreateRoomAsync(CreateRoomRequest request, CancellationToken ct)
     {
-        var url = $"{_endpointOption.CreateRoomEndpoint}?id={id}&roomNumber={roomNumber}";
-        using var response = await _httpClient.PutAsync(url, default, ct);
+        var content = JsonContent.Create(request);
+        using var response = await _httpClient.PutAsync(_endpointOption.CreateRoomEndpoint, content, ct);
         response.EnsureSuccessStatusCode();
     }
 
-    public async Task ChangeRoomAsync(int departmentId, int roomId, string roomNumber,
-        CancellationToken ct)
+    public async Task ChangeRoomAsync(ChangeRoomRequest request, CancellationToken ct)
     {
-        var url = $"{_endpointOption.ChangeRoomEndpoint}?departmentId={departmentId}&roomId={roomId}&roomNumber={roomNumber}";
-        using var response = await _httpClient.PostAsync(url, default, ct);
+        var content = JsonContent.Create(request);
+        using var response = await _httpClient.PostAsync(_endpointOption.ChangeRoomEndpoint, content, ct);
         response.EnsureSuccessStatusCode();
     }
 
@@ -72,6 +71,14 @@ public class BogusDemoClient
     }
 }
 
-public record DepartmentDTO(int Id, string Name, IEnumerable<RoomDTO> Rooms);
+internal record DepartmentDTO(int Id, string Name, IEnumerable<RoomDTO> Rooms);
 
-public record RoomDTO(int Id, string RoomNumber);
+internal record RoomDTO(int Id, string RoomNumber);
+
+internal record CreateDepartmentRequest(string Name);
+
+internal record ChangeDepartmentNameRequest(int Id, string Name);
+
+internal record CreateRoomRequest(int Id, string RoomNumber);
+
+internal record ChangeRoomRequest(int DepartmentId, int RoomId, string RoomNumber);
